@@ -6,7 +6,7 @@
 /*   By: yujung <yujung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 22:10:08 by yujung            #+#    #+#             */
-/*   Updated: 2021/02/02 16:42:40 by yujung           ###   ########.fr       */
+/*   Updated: 2021/02/02 17:22:27 by yujung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void free_buf(char **p, char *temp)
 	}
 }
 
-static int				rt_line(char **line, char **buf)
+static void				rt_line(char **line, char **buf)
 {
 	int			i;
 	char		*temp;
@@ -42,7 +42,16 @@ static int				rt_line(char **line, char **buf)
 		*line = ft_strdup(*buf);
 		free_buf(buf, NULL);
 	}
-	return (1);
+}
+
+int return_val(int rd, int fd, char **buf)
+{
+	if (rd < 0)
+		return (-1);
+	else if (rd == 0 && buf[fd] == NULL)
+		return (0);
+	else
+		return (1);
 }
 
 int				get_next_line(int fd, char **line)
@@ -62,10 +71,6 @@ int				get_next_line(int fd, char **line)
 		if (ft_strchr(buf[fd], '\n') != 0)
 			break ;
 	}
-	if (rd < 0)
-		return (-1);
-	else if (rd == 0 && buf[fd] == NULL)
-		return (0);
-	else
-		return (rt_line(line, &buf[fd]));
+	rt_line(line, &buf[fd]);
+	return (return_val(rd, fd, buf));
 }

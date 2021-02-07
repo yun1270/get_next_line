@@ -6,7 +6,7 @@
 /*   By: yujung <yujung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 22:09:49 by yujung            #+#    #+#             */
-/*   Updated: 2021/02/02 16:10:33 by yujung           ###   ########.fr       */
+/*   Updated: 2021/02/07 15:55:50 by yujung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # endif
 
 int			get_next_line(int fd, char **line);
-
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strchr(const char *s, int c);
 size_t		ft_strlen(const char *s);

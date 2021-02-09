@@ -6,19 +6,19 @@
 /*   By: yujung <yujung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 22:10:08 by yujung            #+#    #+#             */
-/*   Updated: 2021/02/07 16:02:18 by yujung           ###   ########.fr       */
+/*   Updated: 2021/02/10 00:05:57 by yujung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-static void		free_buf(char **p, char *temp)
+static void		free_buf(char **p)
 {
 	if (p != NULL && *p != NULL)
 	{
 		free(*p);
-		*p = temp;
+		*p = NULL;
 	}
 }
 
@@ -34,30 +34,17 @@ static int		rt_line(char **line, char **buf)
 	{
 		*line = ft_substr(*buf, 0, i);
 		temp = ft_strdup(&((*buf)[i + 1]));
-		free_buf(buf, temp);
-		if ((*buf)[0] == '\0')
-			free_buf(buf, NULL);
+		free(*buf);
+		*buf = temp;
 	}
 	else
 	{
 		*line = ft_strdup(*buf);
-		free_buf(buf, NULL);
+		free_buf(buf);
 	}
 	if (*buf == NULL)
 		return (0);
 	return (1);
-}
-
-static int		rt_val(int rd, int fd, char **buf, char **line)
-{
-	if (rd == 0)
-		*line = NULL;
-	if (rd < 0)
-		return (-1);
-	else if (rd == 0 && buf[fd] == NULL)
-		return (0);
-	else
-		return (rt_line(line, &buf[fd]));
 }
 
 int				get_next_line(int fd, char **line)
@@ -65,7 +52,6 @@ int				get_next_line(int fd, char **line)
 	int			rd;
 	char		buff[BUFFER_SIZE + 1];
 	static char	*buf[256];
-	char		*temp;
 
 	if ((line == 0) || (fd < 0) || (BUFFER_SIZE <= 0))
 		return (-1);
@@ -73,15 +59,17 @@ int				get_next_line(int fd, char **line)
 	{
 		buff[rd] = '\0';
 		if (buf[fd] == NULL)
-			buf[fd] = ft_strdup(buff);
-		else
-		{
-			temp = ft_strjoin(buf[fd], buff);
-			free(buf[fd]);
-			buf[fd] = temp;
-		}
+			buf[fd] = "";
+		buf[fd] = ft_strjoin(buf[fd], buff);
 		if (ft_strchr(buf[fd], '\n') != 0)
 			break ;
 	}
-	return (rt_val(rd, fd, buf, line));
+	if (rd == 0)
+		*line = ft_strdup("");
+	if (rd < 0)
+		return (-1);
+	else if (rd == 0 && buf[fd] == NULL)
+		return (0);
+	else
+		return (rt_line(line, &buf[fd]));
 }

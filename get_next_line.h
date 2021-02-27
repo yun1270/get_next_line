@@ -6,7 +6,7 @@
 /*   By: yujung <yujung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 22:09:49 by yujung            #+#    #+#             */
-/*   Updated: 2021/02/07 17:20:28 by yujung           ###   ########.fr       */
+/*   Updated: 2021/02/28 03:27:25 by yujung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 5
+# endif
+
+# ifndef OPEN_MAX
+#  define OPEN_MAX 32
 # endif
 
 int			get_next_line(int fd, char **line);

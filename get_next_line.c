@@ -6,7 +6,7 @@
 /*   By: yujung <yujung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 22:10:08 by yujung            #+#    #+#             */
-/*   Updated: 2021/02/28 03:02:36 by yujung           ###   ########.fr       */
+/*   Updated: 2021/02/28 03:32:07 by yujung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,12 @@ static int		rt_val(char **line, char **buf, char *bn)
 int				get_next_line(int fd, char **line)
 {
 	int			rd;
-	char		buff[BUFFER_SIZE + 1];
-	static char	*buf[256];
+	char		*buff;
+	static char	*buf[OPEN_MAX];
 	char		*temp;
 	char		*bn;
 
+	buff = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (fd < 0 || !line || BUFFER_SIZE < 1)
 		return (-1);
 	if (buf[fd] == 0)

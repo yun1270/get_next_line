@@ -6,49 +6,33 @@
 /*   By: yujung <yujung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 22:10:08 by yujung            #+#    #+#             */
-/*   Updated: 2021/02/10 01:30:04 by yujung           ###   ########.fr       */
+/*   Updated: 2021/02/28 03:02:36 by yujung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-static int		rt_line(char **line, char **buf)
+static int		rt_val(char **line, char **buf, char *bn)
 {
-	int			i;
-	char		*temp;
+	char *temp;
 
-	i = 0;
-	while ((*buf)[i] != '\n' && (*buf)[i] != '\0')
-		i++;
-	if ((*buf)[i] == '\n')
+	if (bn != 0)
 	{
-		*line = ft_substr(*buf, 0, i);
-		temp = ft_strdup(&((*buf)[i + 1]));
+		*line = ft_substr(*buf, 0, bn - *buf);
+		temp = ft_strdup(bn + 1);
 		free(*buf);
 		*buf = temp;
+		return (1);
 	}
-	else
+	if (*buf != 0)
 	{
-		*line = ft_strdup(*buf);
-		free(*buf);
+		*line = *buf;
 		*buf = NULL;
 	}
-	if (*buf == NULL)
-		return (0);
-	return (1);
-}
-
-static int		rt_val(int rd, int fd, char **buf, char **line)
-{
-	if (rd == 0)
-		*line = ft_strdup("");
-	if (rd < 0)
-		return (-1);
-	else if (rd == 0 && buf[fd] == NULL)
-		return (0);
 	else
-		return (rt_line(line, &buf[fd]));
+		*line = NULL;
+	return (0);
 }
 
 int				get_next_line(int fd, char **line)
@@ -57,22 +41,21 @@ int				get_next_line(int fd, char **line)
 	char		buff[BUFFER_SIZE + 1];
 	static char	*buf[256];
 	char		*temp;
+	char		*bn;
 
-	if ((fd < 0) || (line == 0) || (BUFFER_SIZE <= 0))
+	if (fd < 0 || !line || BUFFER_SIZE < 1)
 		return (-1);
-	while ((rd = read(fd, buff, BUFFER_SIZE)) > 0)
+	if (buf[fd] == 0)
+		buf[fd] = ft_strdup("");
+	while (!(bn = ft_strchr(buf[fd], '\n'))
+		&& (rd = read(fd, buff, BUFFER_SIZE)) > 0)
 	{
-		buff[rd] = '\0';
-		if (buf[fd] == NULL)
-			buf[fd] = ft_strdup(buff);
-		else
-		{
-			temp = ft_strjoin(buf[fd], buff);
-			free(buf[fd]);
-			buf[fd] = temp;
-		}
-		if (ft_strchr(buf[fd], '\n') != 0)
-			break ;
+		buff[rd] = 0;
+		temp = ft_strjoin(buf[fd], buff);
+		free(buf[fd]);
+		buf[fd] = temp;
 	}
-	return (rt_val(rd, fd, buf, line));
+	if (rd < 0)
+		return (-1);
+	return (rt_val(line, &buf[fd], bn));
 }

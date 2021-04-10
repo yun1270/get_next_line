@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yujung <yujung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/29 22:10:08 by yujung            #+#    #+#             */
-/*   Updated: 2021/03/03 01:04:59 by yujung           ###   ########.fr       */
+/*   Created: 2021/04/10 17:20:53 by yujung            #+#    #+#             */
+/*   Updated: 2021/04/10 17:23:07 by yujung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <stdio.h>
 
 static int		rt_val(char **line, char **buf, char *bn)

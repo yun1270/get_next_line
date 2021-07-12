@@ -1,21 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yujung <yujung@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/29 22:10:08 by yujung            #+#    #+#             */
-/*   Updated: 2021/03/03 01:04:59 by yujung           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "get_next_line.h"
 #include <stdio.h>
 
-static int		rt_val(char **line, char **buf, char *bn)
+static int	rt_val(char **line, char **buf, char *bn)
 {
-	char *temp;
+	char	*temp;
 
 	if (bn != 0)
 	{
@@ -35,7 +23,7 @@ static int		rt_val(char **line, char **buf, char *bn)
 	return (0);
 }
 
-int				get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	int			rd;
 	char		*buff;
@@ -48,8 +36,9 @@ int				get_next_line(int fd, char **line)
 	buff = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (buf[fd] == 0)
 		buf[fd] = ft_strdup("");
-	while (!(bn = ft_strchr(buf[fd], '\n'))
-		&& (rd = read(fd, buff, BUFFER_SIZE)) > 0)
+	bn = ft_strchr(buf[fd], '\n');
+	rd = read(fd, buff, BUFFER_SIZE);
+	while (!bn && (rd > 0))
 	{
 		buff[rd] = 0;
 		temp = ft_strjoin(buf[fd], buff);
